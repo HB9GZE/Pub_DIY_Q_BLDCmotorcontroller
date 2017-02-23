@@ -290,6 +290,10 @@ else if(__HAL_COMP_COMP2_EXTI_GET_FLAG() && waitForCommutation == 0)
 	}		
 	waitForCommutation = 1;
 }
+/*
+Once in this cycle we check if the speed is above or below a certain level (allow some hysteresis) to see if the comparator crossing-methode shouls change (pwm high or pwm low)
+*/
+
 else if(__HAL_COMP_COMP3_EXTI_GET_FLAG() && waitForCommutation == 0)
 {		
 	HAL_COMP_Stop_IT(&hcomp3);
@@ -315,7 +319,7 @@ else if(__HAL_COMP_COMP3_EXTI_GET_FLAG() && waitForCommutation == 0)
 	  HAL_GPIO_WritePin(GPIOA,GPIO_PIN_7,GPIO_PIN_RESET);	
 		 
 	  HAL_TIM_PWM_Stop(&htim1,TIM_CHANNEL_5);
-	  HAL_DAC_SetValue(&hdac,DAC_CHANNEL_1,DAC_ALIGN_12B_R,1900+oc5Value); //4095 would be max. (3.3 V) 1241 = 1.0 V (bei 6V * 20/120) oder 1588 für 1,28V bei 3V new:1000 mit 3S und 1200 mit 4S
+	  HAL_DAC_SetValue(&hdac,DAC_CHANNEL_1,DAC_ALIGN_12B_R,1900+oc5Value); //4095 would be max. (3.3 V) 1241 = 1.0 V (at 6V * 20/120) or 1200 with 4S LiPo (16V)
 	  
 	  TIM_OC_InitTypeDef sConfigOC5A;
 	  sConfigOC5A.OCMode = TIM_OCMODE_PWM1;
