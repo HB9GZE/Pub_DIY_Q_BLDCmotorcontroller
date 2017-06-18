@@ -264,6 +264,8 @@ void TIM3_IRQHandler(void)
 void COMP1_2_3_IRQHandler(void)
 {
   /* USER CODE BEGIN COMP1_2_3_IRQn 0 */
+	TIM1->CCR5 = setPWM + compWindowOffset;  //what if we set the power here?
+
 if(__HAL_COMP_COMP1_EXTI_GET_FLAG() && waitForCommutation == 0)
 {			
 	HAL_COMP_Stop_IT(&hcomp1);			
