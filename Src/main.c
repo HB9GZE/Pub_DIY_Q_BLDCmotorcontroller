@@ -44,7 +44,7 @@
 #define STEP_5 5
 #define	I2CRECEIVEDBUFFERSIZE 8
 #define COMPDELAY for(uint32_t i = 0; i < 250; i++) //170 with 3S PWM low
-#define CANMOTORADDRESS 0x233
+#define CANMOTORADDRESS 0x231
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -121,18 +121,18 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 /* Private function prototypes -----------------------------------------------*/
 void commutationPattern(uint8_t step) {
 	//too fast changes of the speed / pwm setting can cause out of sync. so allow only max pwm steps per cycle
-//	if (newPWM < (setPWM - 10)) { //used to be 2
-//		setPWM -= 1;
+//	if (newPWM < (setPWM - 150)) { //used to be 2
+//		setPWM -= 50;
 //		TIM1->CCR1 = setPWM;
 //		TIM1->CCR5 = setPWM + compWindowOffset;
-//	} else if (newPWM > (setPWM + 10)) {
-//		setPWM += 1;
+//	} else if (newPWM > (setPWM + 150)) {
+//		setPWM += 50;
 //		TIM1->CCR1 = setPWM;
 //		TIM1->CCR5 = setPWM + compWindowOffset;
 //	} else {
-		setPWM = newPWM;
-		TIM1->CCR1 = setPWM;
-		TIM1->CCR5 = setPWM + compWindowOffset;
+//		setPWM = newPWM;
+//		TIM1->CCR1 = setPWM;
+//		TIM1->CCR5 = setPWM + compWindowOffset;
 //	}
 	//waitForCommutation means that a comparator event has been detected the commutation can happen after the 30deg delay (timer 3)
 	if (step == NEXT && waitForCommutation == 1) {
@@ -330,7 +330,7 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcan) {
 				}
 
 				if ((rx_bytes[1] == 's') && (rx_bytes[2] == 't') && (rx_bytes[3] == 'a')) {  //start the motor
-					newPWM = setPWM = 100;
+					//newPWM = setPWM = 100;
 					motorGotStarted = 1;
 					command_ready = 0;
 					data_ready = 0;

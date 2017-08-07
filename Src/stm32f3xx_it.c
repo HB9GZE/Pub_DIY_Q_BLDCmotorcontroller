@@ -61,7 +61,7 @@ extern uint8_t	data_ready;
 extern uint8_t rx_bytes[10];
 extern uint8_t receiveBuffer[I2CRECEIVEDBUFFERSIZE];
 extern uint16_t oc5Value;
-extern uint16_t setPWM;
+extern uint16_t setPWM,newPWM;
 extern uint8_t pwmState;
 extern int16_t compWindowOffset;
 extern DAC_HandleTypeDef hdac;
@@ -264,6 +264,7 @@ void TIM3_IRQHandler(void)
 void COMP1_2_3_IRQHandler(void)
 {
   /* USER CODE BEGIN COMP1_2_3_IRQn 0 */
+
 	TIM1->CCR5 = setPWM + compWindowOffset;  //what if we set the power here?
 
 if(__HAL_COMP_COMP1_EXTI_GET_FLAG() && waitForCommutation == 0)
